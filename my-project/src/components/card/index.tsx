@@ -5,16 +5,17 @@ import {
     CardFooter,
 } from "@/components/ui/card"
 import { Badge } from "../ui/badge"
+import { Button } from "../ui/button"
 
 interface CardPokemonProps {
     className?: string
     name: string
     number: string
     types?: string[]
+
 }
 
-export function CardPokemon({ className, name, number, types }: CardPokemonProps) {
-    console.log("🚀 ~ CardPokemon ~ name:", name)
+export function CardPokemon({ className, name, number, types, }: CardPokemonProps) {
     const numberImage = parseInt(number)
     const colorTag: Record<string, string> = {
         Normal: "bg-gray-400",

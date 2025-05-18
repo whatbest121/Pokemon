@@ -6,9 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Pokemon, useGetPokemon } from '@/service/useGetPokemon';
 import { useGetPokemon_search } from '@/service/useGetPokemon_Name_Id';
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from 'react';
 
 export default function Home() {
+  const router = useRouter();
   const [page, setPage] = useState(12);
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
   const [name, setName] = useState("")
@@ -44,6 +46,10 @@ export default function Home() {
     }
   };
 
+  const handleClick = (name: string) => {
+    router.push(`/pokemon/${name}`);
+  };
+
   return (
     <div>
       <SearchPokemon handleOnClickSearch={handleOnClickSearch} setName={setName} />
@@ -55,7 +61,9 @@ export default function Home() {
           ))
         ) : (
           pokemonList.map((v, i) => (
-            <CardPokemon key={i} name={v.name} number={v.number} types={v.types} />
+            <div key={i} onClick={() => handleClick(v.name)} className="cursor-pointer">
+              <CardPokemon key={i} name={v.name} number={v.number} types={v.types} />
+            </div>
           ))
         )}
 
