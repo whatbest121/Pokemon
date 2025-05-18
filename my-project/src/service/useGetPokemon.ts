@@ -1,4 +1,4 @@
-import { GET_POKEMON_BY_NAME } from "@/graphql/test";
+import { GET_POKEMON } from "@/graphql/getPokemons";
 import { useQuery } from "@apollo/client";
 
 export type Pokemon = {
@@ -33,7 +33,7 @@ type UseGetPokemonVariables = {
 
 export function useGetPokemon(first: number) {
   return useQuery<UseGetPokemonResult, UseGetPokemonVariables>(
-    GET_POKEMON_BY_NAME,
+    GET_POKEMON,
     {
       variables: { first },
       notifyOnNetworkStatusChange: true,

@@ -10,10 +10,11 @@ interface CardPokemonProps {
     className?: string
     name: string
     number: string
-    types: string[]
+    types?: string[]
 }
 
 export function CardPokemon({ className, name, number, types }: CardPokemonProps) {
+    console.log("🚀 ~ CardPokemon ~ name:", name)
     const numberImage = parseInt(number)
     const colorTag: Record<string, string> = {
         Normal: "bg-gray-400",
@@ -45,7 +46,7 @@ export function CardPokemon({ className, name, number, types }: CardPokemonProps
                 <h2 className="text-xl font-bold">{name}</h2>
             </CardContent>
             <CardFooter className="flex justify-center pb-4">
-                {types.map((type) => (
+                {types?.map((type) => (
                     <Badge
                         key={type}
                         className={cn(
