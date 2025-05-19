@@ -1,30 +1,15 @@
 import { GET_POKEMON } from "@/graphql/getPokemons";
 import { useQuery } from "@apollo/client";
 
-export type Pokemon = {
+export type PokemonList = {
   id: string;
   number: string;
   name: string;
-  weight: {
-    minimum: string;
-    maximum: string;
-  };
-  height: {
-    minimum: string;
-    maximum: string;
-  };
-  classification: string;
   types: string[];
-  resistant: string[];
-  weaknesses: string[];
-  fleeRate: number;
-  maxCP: number;
-  maxHP: number;
-  image: string;
 };
 
 export type UseGetPokemonResult = {
-  pokemons: Pokemon[];
+  pokemons: PokemonList[];
 };
 
 type UseGetPokemonVariables = {

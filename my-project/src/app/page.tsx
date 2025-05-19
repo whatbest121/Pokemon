@@ -1,10 +1,9 @@
 "use client";
-
 import { CardPokemon } from '@/components/card';
 import { SearchPokemon } from '@/components/search';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Pokemon, useGetPokemon } from '@/service/useGetPokemon';
+import { PokemonList, useGetPokemon } from '@/service/useGetPokemon';
 import { useGetPokemon_search } from '@/service/useGetPokemon_Name_Id';
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from 'react';
@@ -12,28 +11,31 @@ import { useEffect, useState } from 'react';
 export default function Home() {
   const router = useRouter();
   const [page, setPage] = useState(12);
-  const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
-  const [name, setName] = useState("")
-
+  const [pokemonList, setPokemonList] = useState<PokemonList[]>([]);
+  const [name, setName] = useState("");
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const { data, loading, fetchMore } = useGetPokemon(12);
-
   const [searchPokemon, { loading: loadingSearch }] = useGetPokemon_search();
 
+
   useEffect(() => {
-    if (data?.pokemons) {
+    if (data?.pokemons && pokemonList.length === 0) {
       setPokemonList(data.pokemons);
     }
-  }, [data]);
+  }, [data, pokemonList.length]);
 
   const handleOnClickSearch = () => {
-    searchPokemon({ variables: { name } }).then((res) => {
-      if (res.data) {
+    if (!name.trim()) return;
+
+    searchPokemon({ variables: { name: name.toLowerCase() } }).then((res) => {
+      if (res.data?.pokemon) {
         setPokemonList([res.data.pokemon]);
       }
     });
   };
 
   const handleOnClickLoadMore = async () => {
+    setIsLoadingMore(true);
     const newPage = page + 12;
     setPage(newPage);
 
@@ -42,33 +44,128 @@ export default function Home() {
     });
 
     if (newData?.pokemons) {
-      setPokemonList(newData.pokemons);
+      setPokemonList((prev) => [...prev, ...newData.pokemons.slice(prev.length)]);
     }
+    setIsLoadingMore(false);
   };
 
   const handleClick = (name: string) => {
     router.push(`/pokemon/${name}`);
   };
 
-  return (
-    <div>
-      <SearchPokemon handleOnClickSearch={handleOnClickSearch} setName={setName} />
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 p-5'>
+  const handleClearSearch = () => {
+    if (data?.pokemons) {
+      setPokemonList(data.pokemons);
+      setName("");
+    }
+  };
 
-        {loadingSearch || loading ? (
-          Array.from({ length: 12 }).map((_, i) => (
-            <Skeleton key={i} className="h-120 w-full rounded-xl" />
-          ))
-        ) : (
-          pokemonList.map((v, i) => (
-            <div key={i} onClick={() => handleClick(v.name)} className="cursor-pointer">
-              <CardPokemon key={i} name={v.name} number={v.number} types={v.types} />
-            </div>
-          ))
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900">
+      <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0 opacity-5">
+        <div className="w-[80vh] h-[80vh] rounded-full bg-white border-[20px] border-gray-200 relative">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-1/3 h-1/3 rounded-full bg-gray-200 border-[20px] border-gray-300"></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="relative z-10 container mx-auto px-4 py-8">
+        <div className="flex flex-col md:flex-row items-center justify-between mb-8">
+          <div className="flex items-center space-x-4 mb-4 md:mb-0">
+            <img
+              src="/pokemon-logo.png"
+              alt="Pokemon Logo"
+              className="h-12"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                document.getElementById('text-logo')!.style.display = 'block';
+              }}
+            />
+            <h1 id="text-logo" className="text-4xl font-extrabold text-yellow-400 tracking-wider" style={{ display: 'none' }}>
+              โปเกเด็กซ์
+            </h1>
+          </div>
+
+          <div className="w-full md:w-1/2">
+            <SearchPokemon
+              setName={setName}
+              handleOnClickSearch={handleOnClickSearch}
+              name={name}
+              handleClearSearch={handleClearSearch}
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+          {loadingSearch || (loading && pokemonList.length === 0) ? (
+            Array.from({ length: 12 }).map((_, i) => (
+              <div key={i} className="animate-pulse">
+                <Skeleton className="h-64 rounded-xl" />
+              </div>
+            ))
+          ) : (
+            <>
+              {pokemonList.length > 0 ? (
+                pokemonList.map((pokemon, i) => (
+                  <div
+                    key={i}
+                    onClick={() => handleClick(pokemon.name)}
+                    className="transform transition duration-300 hover:scale-105 hover:-translate-y-1"
+                  >
+                    <CardPokemon name={pokemon.name} number={pokemon.number} types={pokemon.types} />
+                  </div>
+                ))
+              ) : (
+                <div className="col-span-full text-center py-12">
+                  <div className="bg-slate-800/80 rounded-lg p-8 max-w-md mx-auto">
+                    <img
+                      src="/pokemon-not-found.png"
+                      alt="Pokemon Not Found"
+                      className="w-24 h-24 mx-auto mb-6 opacity-60"
+                      onError={(e) => { e.currentTarget.style.display = 'none' }}
+                    />
+                    <h3 className="text-xl font-bold text-white mb-2">ไม่พบโปเกมอน!</h3>
+                    <p className="text-gray-400">ไม่พบโปเกมอนชื่อ "{name}" ลองค้นหาชื่ออื่นดูนะ</p>
+                  </div>
+                </div>
+              )}
+
+              {isLoadingMore &&
+                Array.from({ length: 4 }).map((_, i) => (
+                  <div key={`loading-more-${i}`} className="animate-pulse">
+                    <Skeleton className="h-64 rounded-xl" />
+                  </div>
+                ))
+              }
+            </>
+          )}
+        </div>
+
+        {pokemonList.length > 0 && pokemonList.length % 12 === 0 && !name && (
+          <div className="flex justify-center py-10">
+            <Button
+              onClick={handleOnClickLoadMore}
+              disabled={isLoadingMore}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-6 rounded-full font-bold text-lg transition-all shadow-lg hover:shadow-xl"
+            >
+              {isLoadingMore ? (
+                <div className="flex items-center">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  กำลังโหลด...
+                </div>
+              ) : "โหลดเพิ่มเติม"}
+            </Button>
+          </div>
         )}
 
+        <footer className="text-center mt-12 border-t border-gray-800 pt-6 text-gray-400">
+          <p>© 2025 โปเกเด็กซ์ | ข้อมูลจาก PokeAPI</p>
+        </footer>
       </div>
-      <Button onClick={handleOnClickLoadMore}>load more...</Button>
     </div>
   );
 }
