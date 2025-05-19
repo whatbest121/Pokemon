@@ -7,6 +7,7 @@ import { PokemonList, useGetPokemon } from '@/service/useGetPokemon';
 import { useGetPokemon_search } from '@/service/useGetPokemon_Name_Id';
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from 'react';
+import Image from "next/image"
 
 export default function Home() {
   const router = useRouter();
@@ -73,10 +74,12 @@ export default function Home() {
       <div className="relative z-10 container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row items-center justify-between mb-8">
           <div className="flex items-center space-x-4 mb-4 md:mb-0">
-            <img
+            <Image
               src="/pokemon-logo.png"
               alt="Pokemon Logo"
-              className="h-12"
+              height={12}
+              width={12}
+              // className="h-12"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
                 document.getElementById('text-logo')!.style.display = 'block';
@@ -119,7 +122,9 @@ export default function Home() {
               ) : (
                 <div className="col-span-full text-center py-12">
                   <div className="bg-slate-800/80 rounded-lg p-8 max-w-md mx-auto">
-                    <img
+                    <Image
+                      width={12}
+                      height={12}
                       src="/pokemon-not-found.png"
                       alt="Pokemon Not Found"
                       className="w-24 h-24 mx-auto mb-6 opacity-60"

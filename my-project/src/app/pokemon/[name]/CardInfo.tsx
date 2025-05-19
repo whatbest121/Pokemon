@@ -2,6 +2,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import React from 'react'
 import { PokementCardBadge } from './PokementCardBadge'
 import { averageWithUnit } from '@/lib/utils'
+import Image from "next/image"
 
 interface CardInfoProps {
     name: string
@@ -32,7 +33,9 @@ export const CardInfo = ({ classification, height, name, resistant, types, weakn
 
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-800/50 rounded-full m-auto w-48 h-48 flex items-center justify-center opacity-70"></div>
 
-                    <img
+                    <Image
+                    width={300}
+                    height={300}
                         src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${numberImage}.png`}
                         alt={name}
                         className="w-56 h-56 object-contain transition-transform hover:scale-110 duration-300 z-10 drop-shadow-xl"

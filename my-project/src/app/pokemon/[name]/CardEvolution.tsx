@@ -3,6 +3,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import React from 'react'
 import { PokementCardBadge } from './PokementCardBadge'
 import { useRouter } from "next/navigation";
+import Image from "next/image"
 interface CardEvolutionProps {
     evolutions: {
         id: string;
@@ -46,7 +47,9 @@ export const CardEvolution = ({ evolutions }: CardEvolutionProps) => {
                             <div key={index} onClick={() => handleClick(evo.name)} className="cursor-pointer">
                                 <div className="relative">
                                     <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-800/30 rounded-full m-auto w-24 h-24 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                    <img
+                                    <Image
+                                        width={100}
+                                        height={100}
                                         src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${parseInt(evo.number)}.png`}
                                         alt={evo.name}
                                         className="w-24 h-24 mx-auto transition-transform group-hover:scale-110 duration-300"

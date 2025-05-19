@@ -5,6 +5,8 @@ import {
     CardFooter,
 } from "@/components/ui/card";
 import { Badge } from "../ui/badge";
+import Image from "next/image"
+
 
 interface CardPokemonProps {
     className?: string;
@@ -86,7 +88,9 @@ export function CardPokemon({ className, name, number, types }: CardPokemonProps
 
                 <div className="relative z-10 w-32 h-32 mb-2 flex items-center justify-center">
                     <div className="absolute inset-0 bg-white/10 rounded-full transform scale-75 blur-lg"></div>
-                    <img
+                    <Image
+                        width={500}
+                        height={500}
                         src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${numberImage}.png`}
                         alt={name}
                         className="w-full h-full object-contain drop-shadow-lg transition-transform duration-300 transform hover:scale-110 z-10"
