@@ -32,7 +32,6 @@ export const PokementCardBadge = ({ type }: PokementCardBadgeProps) => {
 
     return (
         <div
-            // @ts-ignore
             className={cn(
                 "px-4 py-1.5 text-white rounded-full text-sm font-semibold shadow-lg transition-transform hover:scale-105",
                 color

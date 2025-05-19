@@ -44,10 +44,7 @@ const PokemonDetailPage = () => {
 
     const {
         classification,
-        fleeRate,
         height,
-        id,
-        image,
         maxCP,
         maxHP,
         name,
