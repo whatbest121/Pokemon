@@ -5,6 +5,7 @@
 2. **UI Component**: shadCN
 3. **UI CSS**: Tailwind
 4. **Fetch GraphQL**: apollo/client
+5. **Test**: jestjs
 
 ## การติดตั้งและรันด้วย Docker
 
@@ -45,6 +46,9 @@ cd frontend
 npm install
 npm run dev
 ```
+
+### Deploy vercel
+```https://pokemon-q3wg.vercel.app```
 
 ## API Endpoints
 
