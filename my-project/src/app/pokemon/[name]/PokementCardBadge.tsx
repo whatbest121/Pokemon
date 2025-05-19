@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { Badge } from "lucide-react";
 
 interface PokementCardBadgeProps {
     type: string

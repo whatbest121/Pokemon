@@ -168,7 +168,8 @@ export default function Home() {
         )}
 
         <footer className="text-center mt-12 border-t border-gray-800 pt-6 text-gray-400">
-          <p>© 2025 โปเกเด็กซ์ | ข้อมูลจาก PokeAPI</p>
+          <div>"© 2025 โปเกเด็กซ์ | ข้อมูลจาก PokeAPI"</div>
+
         </footer>
       </div>
     </div>
