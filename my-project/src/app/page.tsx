@@ -79,15 +79,14 @@ export default function Home() {
               alt="Pokemon Logo"
               height={12}
               width={12}
-              // className="h-12"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
                 document.getElementById('text-logo')!.style.display = 'block';
               }}
             />
-            <h1 id="text-logo" className="text-4xl font-extrabold text-yellow-400 tracking-wider" style={{ display: 'none' }}>
-              โปเกเด็กซ์
-            </h1>
+            <div id="text-logo" className="text-4xl font-extrabold text-yellow-400 tracking-wider" style={{ display: 'none' }}>
+              &quot;โปเกเด็กซ์&quot;
+            </div>
           </div>
 
           <div className="w-full md:w-1/2">
@@ -130,8 +129,9 @@ export default function Home() {
                       className="w-24 h-24 mx-auto mb-6 opacity-60"
                       onError={(e) => { e.currentTarget.style.display = 'none' }}
                     />
-                    <h3 className="text-xl font-bold text-white mb-2">ไม่พบโปเกมอน!</h3>
-                    <p className="text-gray-400">ไม่พบโปเกมอนชื่อ "{name}" ลองค้นหาชื่ออื่นดูนะ</p>
+                    <div className="text-xl font-bold text-white mb-2">&quot;ไม่พบโปเกมอน!&quot;</div>
+                    <div className="text-gray-400">&quot;ไม่พบโปเกมอนชื่อ {name} ลองค้นหาชื่ออื่นดูนะ&quot;</div>
+
                   </div>
                 </div>
               )}
@@ -168,7 +168,8 @@ export default function Home() {
         )}
 
         <footer className="text-center mt-12 border-t border-gray-800 pt-6 text-gray-400">
-          <div>"© 2025 โปเกเด็กซ์ | ข้อมูลจาก PokeAPI"</div>
+          <div>&quot;2025 โปเกเด็กซ์ | ข้อมูลจาก PokeAPI&quot;</div>
+
 
         </footer>
       </div>

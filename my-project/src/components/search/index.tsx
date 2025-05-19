@@ -67,8 +67,8 @@ export const SearchPokemon = ({
 
       {/* Search Tips */}
       <div className="flex flex-wrap gap-2 mt-2 text-xs text-gray-400">
-        <span className="bg-slate-800/60 rounded-full px-2 py-1">เคล็ดลับ: ค้นหาด้วยชื่อ</span>
-        <span className="bg-slate-800/60 rounded-full px-2 py-1">หรือไอดี เช่น "025"</span>
+        <span className="bg-slate-800/60 rounded-full px-2 py-1">&quot;เคล็ดลับ: ค้นหาด้วยชื่อ&quot;</span>
+        <span className="bg-slate-800/60 rounded-full px-2 py-1">&quot;หรือไอดี เช่น 025&quot;</span>
       </div>
     </div>
   );
